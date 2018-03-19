@@ -20,8 +20,7 @@ class User < ActiveRecord::Base
                          .group(:user_id)}
 
   scope :least_familiar, ->{select([:name, :url, 'COUNT(*) as wrong_guesses'])
-                                  .joins(:photos)
-                                  .joins('JOIN guesses ON guesses.photo_id = photos.id')
+                                  .joins(:photos, 'JOIN guesses ON guesses.photo_id = photos.id')
                                   .where('guesses.correct = ?', false)
                                   .group(:id)}
 

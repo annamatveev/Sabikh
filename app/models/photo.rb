@@ -6,7 +6,7 @@ class Photo < ActiveRecord::Base
   scope :for_user, ->(user_id){ where(user_id: user_id) }
   scope :random, ->(user_id) { where.not(id: [Photo.where(user_id: user_id),
                                               Guess.correct_answers(user_id).pluck('photo_id')
-                                              ]
+                                              ].flatten
                                           )
                                .where.not('url LIKE ?', '%default.png')
                                .order('RANDOM()')

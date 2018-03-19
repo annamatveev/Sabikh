@@ -24,10 +24,11 @@ module Candirwho
     config.active_record.raise_in_transactional_callbacks = true
     config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-    config.middleware.insert_before 0, "Rack::Cors" do
+    config.middleware.insert_before 0, 'Rack::Cors' do
       allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :delete, :options]
+        origins 'http://localhost:4000'
+        resource '*', :headers => :any, :methods => [:get, :post, :delete, :options], :credentials => true
+
       end
     end
   end

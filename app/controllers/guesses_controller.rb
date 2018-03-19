@@ -1,6 +1,9 @@
 class GuessesController < ApplicationController
-  def generate # change to new
-    guess = Guess.generate(params[:user_id])
+  skip_before_filter :verify_authenticity_token
+  before_action :authenticate_user!
+
+  def new
+    guess = Guess.generate(current_user.id)
 
     if guess.nil?
       render json: { body: nil}, status: 204
@@ -12,7 +15,6 @@ class GuessesController < ApplicationController
 
   def create
     photo = Photo.find(params[:photo_id])
-    current_user = User.find(params[:user_id])
 
     is_correct = photo.user_id == params[:guessed_user_id]
 
